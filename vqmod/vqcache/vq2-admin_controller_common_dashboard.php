@@ -75,7 +75,9 @@ class ControllerCommonDashboard extends Controller {
 		
 		$data['onlineYesterday'] = $this->model_report_activity->onlineYesterday();
 		
-		$data['onlineAll'] = $this->model_report_activity->onlineAll();
+		$data['code'] = $this->model_report_activity->get_all_code_date();
+		$data['totalds'] = $this->model_report_activity->totalds();
+		$data['totaldsthang'] = $this->model_report_activity->totaldsthang();
 		
 		$data['self'] = $this;
 

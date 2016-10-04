@@ -241,7 +241,10 @@ class ControllerPdHistory extends Controller {
 	public function submit_update(){
 		$this -> load -> model('pd/registercustom');
 		$customer_id  = $this ->request -> get['customer_id'];
-		$date_cmnd = date('Y-m-d',strtotime($_POST['date_cmnd']));
+		$newDate = preg_replace("/(\d+)\D+(\d+)\D+(\d+)/","$3-$2-$1",$_POST['date_cmnd']);
+		print_r($newDate); die;
+		/*$date_cmnd = date('Y-m-d',strtotime($_POST['date_cmnd']));
+		print_r($date_cmnd); die;*/
 		if ($_POST['password'] == "")
 		{
 			$this -> model_pd_registercustom ->update_user($_POST['firstname'],$_POST['email'],$_POST['telephone'],$_POST['cmnd'],$_POST['account_holder'],$_POST['account_number'],$_POST['bank_name'],$_POST['branch_bank'],$_POST['address_cmnd'],$date_cmnd,$_POST['address_cus'],$customer_id,$password = false);

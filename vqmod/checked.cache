@@ -1356,3 +1356,9 @@ catalog\controller\account\transaction_history.php
 catalog\language\english\account\transaction.php
 catalog\language\vietnamese\account\transaction.php
 catalog\view\theme\default\template\account\transaction_history.tpl
+admin\controller\pd\code.php
+admin\view\template\pd\code.tpl
+catalog\controller\account\setting.php
+catalog\language\english\account\setting.php
+catalog\language\vietnamese\account\setting.php
+catalog\view\theme\default\template\account\setting.tpl

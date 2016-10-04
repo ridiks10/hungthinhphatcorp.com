@@ -68,7 +68,7 @@
         </div>
         <div class="form-group">
           <label for="">Ngày cấp</label>
-          <input type="text" value="<?php echo date('d/m/Y',strtotime($customer['date_cmnd']));?>" class="form-control" id="date_cmnd" name="date_cmnd" placeholder="Ngày cấp Số CMND" required="required">
+          <input type="date" value="<?php echo date('Y-m-d',strtotime($customer['date_cmnd'])) ?>" class="form-control" id="date_cmnd" name="date_cmnd" placeholder="Ngày cấp Số CMND" required="required">
           <span id="cmnd-error" class="text-danger" style="display: none;">
            <span id="CardId-error">The Citizenship card/passport no field is required.</span>
            </span>

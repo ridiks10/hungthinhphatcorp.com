@@ -135,6 +135,14 @@ class ControllerPdHistory extends Controller {
 		$get_childrend = $this -> model_pd_registercustom -> get_childrend($customer_id);
 		return substr($get_childrend, 1);
 	}
+
+	public function getSumFloor($customer_id){
+		$customer_id = $_GET['id'];
+		$this -> load -> model('pd/registercustom');
+		$getSumFloor = $this -> model_pd_registercustom -> getSumFloor($customer_id);
+		echo $getSumFloor;
+	}
+
 	public function view_history(){
 		$customer_id  = $this ->request -> get['customer_id'];
 		$this -> load -> model('pd/registercustom');
@@ -242,9 +250,7 @@ class ControllerPdHistory extends Controller {
 		$this -> load -> model('pd/registercustom');
 		$customer_id  = $this ->request -> get['customer_id'];
 		$newDate = preg_replace("/(\d+)\D+(\d+)\D+(\d+)/","$3-$2-$1",$_POST['date_cmnd']);
-		print_r($newDate); die;
-		/*$date_cmnd = date('Y-m-d',strtotime($_POST['date_cmnd']));
-		print_r($date_cmnd); die;*/
+		$date_cmnd = date('Y-m-d',strtotime($_POST['date_cmnd']));
 		if ($_POST['password'] == "")
 		{
 			$this -> model_pd_registercustom ->update_user($_POST['firstname'],$_POST['email'],$_POST['telephone'],$_POST['cmnd'],$_POST['account_holder'],$_POST['account_number'],$_POST['bank_name'],$_POST['branch_bank'],$_POST['address_cmnd'],$date_cmnd,$_POST['address_cus'],$customer_id,$password = false);

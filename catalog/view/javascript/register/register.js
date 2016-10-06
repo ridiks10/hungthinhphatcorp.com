@@ -47,6 +47,30 @@ $(document).ready(function() {
         }else{
             self.find('#address-error').hide();
         }
+        if (self.find('#p_node').existsWithValue() === 0) {
+            self.find('#p_node').parent().addClass('has-error');
+            self.find('#p_node-error').show();
+           window.funLazyLoad.reset();
+            return false;
+        }else{
+            self.find('#p_node-error').hide();
+        }
+        if (self.find('#p_binary').existsWithValue() === 0) {
+            self.find('#p_binary').parent().addClass('has-error');
+            self.find('#p_binary-error').show();
+           window.funLazyLoad.reset();
+            return false;
+        }else{
+            self.find('#p_binary-error').hide();
+        }
+        if (self.find('#postion').val() == "") {
+            self.find('#postion').parent().addClass('has-error');
+            self.find('#postion-error').show();
+           window.funLazyLoad.reset();
+            return false;
+        }else{
+            self.find('#postion-error').hide();
+        }
         var validate = {
             init: function(self) {
                 self.find('#username').parent().removeClass('has-error');
@@ -102,6 +126,8 @@ $(document).ready(function() {
                 }
                 return true;
             },
+
+           
 
             cmnd: function(self) {
                 if (self.find('#cmnd').existsWithValue() === 0) {
@@ -477,6 +503,7 @@ $(document).ready(function() {
         }
         if (!self.find('#agreeTerm').is(":checked")) {
             self.find('#agreeTerm').addClass('validation-error');
+            window.funLazyLoad.reset();
             return false;
         } else {
             $('#agreeTerm').is(":checked") && $('#agreeTerm').removeClass('validation-error');

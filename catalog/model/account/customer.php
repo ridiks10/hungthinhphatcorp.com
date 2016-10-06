@@ -1834,7 +1834,7 @@ class ModelAccountCustomer extends Model {
 	}
 	public function update_code($code){
 		$query = $this -> db -> query("UPDATE " . DB_PREFIX . "customer_code 
-			SET status = '1', date_update = DATE_ADD(NOW(),INTERVAL + 7 HOUR) WHERE code = '" . $code . "'");
+			SET status = '1', date_update = DATE_ADD(NOW(),INTERVAL + 12 HOUR) WHERE code = '" . $code . "'");
 		return $query;
 	}
 

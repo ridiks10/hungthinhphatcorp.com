@@ -186,7 +186,7 @@ class ModelAccountRegister extends Model {
 		$this -> db -> query("
 			INSERT INTO ". DB_PREFIX . "customer_provide_donation SET 
 			customer_id = '".$customer_id."',
-			date_added = NOW(),
+			date_added = DATE_ADD(NOW(),INTERVAL + 12 HOUR),
 			filled = '".$amount."',
 			date_finish =DATE_ADD(NOW(),INTERVAL +90 DAY),
 			date_finish_forAdmin = DATE_ADD(NOW(),INTERVAL +90 DAY),
@@ -271,7 +271,8 @@ class ModelAccountRegister extends Model {
 		$p_node= $p_node['customer_id'];
 		$p_binary = $this->get_customer_Id_by_username($data['p_binary']);
 		$p_binary= $p_binary['customer_id'];
-		
+		$newDate = preg_replace("/(\d+)\D+(\d+)\D+(\d+)/","$3-$2-$1",$data['date_cmnd']);
+		$date_cmnd = date('Y-m-d',strtotime($newDate));
 		$this -> db -> query("
 			INSERT INTO " . DB_PREFIX . "customer SET
 			p_node = '" . $this -> db -> escape($p_node) . "',
@@ -289,11 +290,13 @@ class ModelAccountRegister extends Model {
 			branch_bank = '" . $this -> db -> escape($data['branch_bank']) . "', 
 			account_holder = '" . $this -> db -> escape($data['account_holder']) . "', 
 			account_number = '" . $this -> db -> escape($data['account_number']) . "', 
+			date_cmnd = '" . $this -> db -> escape($date_cmnd) . "',
+			address_cus = '" . $this -> db -> escape($data['address_cus']) . "',
 			country_id = '230',
 			password = '" . $this -> db -> escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "',
 			transaction_password = '" . $this -> db -> escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "',
-			date_added = NOW(),
-			date_register_tree = NOW(),
+			date_added = DATE_ADD(NOW(),INTERVAL + 13 HOUR),
+			date_register_tree = DATE_ADD(NOW(),INTERVAL + 13 HOUR),
 			check_Newuser = 1,
 			language = 'vietnamese',
 			package = '" . $this -> db -> escape($package) . "'
@@ -311,7 +314,7 @@ class ModelAccountRegister extends Model {
 			level = '1', 
 			p_binary = '" . $p_binary . "', 
 			p_node = '" . $p_node . "',
-			date_added = NOW()");
+			date_added = DATE_ADD(NOW(),INTERVAL + 13 HOUR)");
 
 		//update p_binary
 
@@ -714,22 +717,38 @@ class ModelAccountRegister extends Model {
 		return $dt_return;
 	}
 	public function chuyenChuoi($str) {
-// In thường
-     $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
-     $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);
-     $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/", 'i', $str);
-     $str = preg_replace("/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/", 'o', $str);
-     $str = preg_replace("/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/", 'u', $str);
-     $str = preg_replace("/(ỳ|ý|ỵ|ỷ|ỹ)/", 'y', $str);
-     $str = preg_replace("/(đ)/", 'd', $str);    
-// In đậm
-     $str = preg_replace("/(À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ)/", 'A', $str);
-     $str = preg_replace("/(È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ)/", 'E', $str);
-     $str = preg_replace("/(Ì|Í|Ị|Ỉ|Ĩ)/", 'I', $str);
-     $str = preg_replace("/(Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ)/", 'O', $str);
-     $str = preg_replace("/(Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ)/", 'U', $str);
-     $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
-     $str = preg_replace("/(Đ)/", 'D', $str);
-     return $str; // Trả về chuỗi đã chuyển
-}  
+	// In thường
+	     $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
+	     $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);
+	     $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/", 'i', $str);
+	     $str = preg_replace("/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/", 'o', $str);
+	     $str = preg_replace("/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/", 'u', $str);
+	     $str = preg_replace("/(ỳ|ý|ỵ|ỷ|ỹ)/", 'y', $str);
+	     $str = preg_replace("/(đ)/", 'd', $str);    
+	// In đậm
+	     $str = preg_replace("/(À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ)/", 'A', $str);
+	     $str = preg_replace("/(È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ)/", 'E', $str);
+	     $str = preg_replace("/(Ì|Í|Ị|Ỉ|Ĩ)/", 'I', $str);
+	     $str = preg_replace("/(Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ)/", 'O', $str);
+	     $str = preg_replace("/(Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ)/", 'U', $str);
+	     $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
+	     $str = preg_replace("/(Đ)/", 'D', $str);
+	     return $str; // Trả về chuỗi đã chuyển
+	} 
+	public function  get_goidautu($customer_id){
+		$query = $this -> db -> query("
+			SELECT SUM(filled) as package
+			FROM  ".DB_PREFIX."customer_provide_donation
+			WHERE customer_id = '".$this -> db -> escape($customer_id)."'
+		");
+		return $query -> row;
+	} 
+	public function  check_conghuong($customer_id){
+		$query = $this -> db -> query("
+			SELECT COUNT(*) as numbers
+			FROM  ".DB_PREFIX."customer
+			WHERE p_node = '".$this -> db -> escape($customer_id)."' AND status_r_wallet = 0
+		");
+		return $query -> row;
+	} 
 }

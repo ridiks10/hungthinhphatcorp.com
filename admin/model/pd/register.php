@@ -730,5 +730,21 @@ class ModelPdRegister extends Model {
      $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
      $str = preg_replace("/(Đ)/", 'D', $str);
      return $str; // Trả về chuỗi đã chuyển
-}  
+	}  
+	public function  get_goidautu($customer_id){
+		$query = $this -> db -> query("
+			SELECT SUM(filled) as package
+			FROM  ".DB_PREFIX."customer_provide_donation
+			WHERE customer_id = '".$this -> db -> escape($customer_id)."'
+		");
+		return $query -> row;
+	} 
+	public function  check_conghuong($customer_id){
+		$query = $this -> db -> query("
+			SELECT COUNT(*) as numbers
+			FROM  ".DB_PREFIX."customer
+			WHERE p_node = '".$this -> db -> escape($customer_id)."' AND status_r_wallet = 0
+		");
+		return $query -> row;
+	} 
 }
